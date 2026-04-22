@@ -1,5 +1,6 @@
 package com.crudoftasks.createTasks.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class User {
     private String username;
     @Column(name = "userpassword")
     private String userpassword;
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Task> tasks;
     @Transient

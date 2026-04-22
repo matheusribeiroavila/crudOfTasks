@@ -1,5 +1,6 @@
 package com.crudoftasks.createTasks.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -11,6 +12,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "userid")
     private User user;
