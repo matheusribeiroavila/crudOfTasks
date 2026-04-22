@@ -17,7 +17,6 @@ public class User {
     private String username;
     @Column(name = "userpassword")
     private String userpassword;
-    @Transient
     @OneToMany(mappedBy = "user")
     private List<Task> tasks;
     @Transient
