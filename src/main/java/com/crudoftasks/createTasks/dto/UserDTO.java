@@ -4,5 +4,5 @@ import com.crudoftasks.createTasks.model.Task;
 
 import java.util.List;
 
-public record UserDTO(Long id, String email, String username, String password, List<Task> tasks, String token) {
+public record UserDTO(Long id, String email, String username, String userpassword, List<Task> tasks, String token) {
 }
