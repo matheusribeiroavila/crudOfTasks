@@ -1,9 +1,11 @@
 package com.crudoftasks.createTasks.service;
 
 import com.crudoftasks.createTasks.dto.UserDTO;
+import com.crudoftasks.createTasks.exception.NotFoundException;
 import com.crudoftasks.createTasks.mapper.UserMapper;
 import com.crudoftasks.createTasks.model.User;
 import com.crudoftasks.createTasks.repository.UserRepository;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,6 @@ public class UserService implements  IUserService {
 
     @Override
     public User getUserById(Long userId) {
-        return userRepository.findById(userId).orElseThrow();
+        return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Error 404 | User not found, please review your credentials"));
     }
 }
