@@ -6,6 +6,7 @@ import com.crudoftasks.createTasks.exception.UnauthorizedUserException;
 import com.crudoftasks.createTasks.mapper.UserMapper;
 import com.crudoftasks.createTasks.model.User;
 import com.crudoftasks.createTasks.repository.UserRepository;
+import com.crudoftasks.createTasks.security.JwtUtil;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,11 +15,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements  IUserService {
 
+    private final JwtUtil jwtUtil;
     UserRepository userRepository;
     UserMapper userMapper;
-    public UserService(UserRepository userRepository, UserMapper userMapper){
+    public UserService(UserRepository userRepository, UserMapper userMapper, JwtUtil jwtUtil){
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -42,18 +45,15 @@ public class UserService implements  IUserService {
     }
 
     @Override
-    public User loginUser(User user) {
+    public String loginUser(User user) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         User userRepo = userRepository.getUserByUsername(user.getUsername());
 
-        System.out.println("User do Repositorio: "+userRepo.toString());
-        System.out.println("User requisitado: "+user);
-
-        if (user.getUsername().equals(userRepo.getUsername()) && encoder.matches(user.getUserpassword(), userRepo.getUserpassword())){
-            return userRepo;
-        }else{
-            throw new NotFoundException("Error 404 | User not found, please review your credentials");
+        if (userRepo != null && encoder.matches(user.getUserpassword(), userRepo.getUserpassword())) {
+            return jwtUtil.generateToken(userRepo.getUsername());
+        } else {
+            throw new UnauthorizedUserException("User not found, please review your credentials");
         }
     }
 }

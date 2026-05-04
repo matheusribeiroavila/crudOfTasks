@@ -2,6 +2,7 @@ package com.crudoftasks.createTasks.controller;
 
 import com.crudoftasks.createTasks.dto.CreateUserDTO;
 import com.crudoftasks.createTasks.dto.LoginDTO;
+import com.crudoftasks.createTasks.dto.TokenDTO;
 import com.crudoftasks.createTasks.dto.UserDTO;
 import com.crudoftasks.createTasks.mapper.UserMapper;
 import com.crudoftasks.createTasks.model.User;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
 public class UserController {
 
     private final UserMapper userMapper;
@@ -28,14 +28,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> findUserById(@PathVariable Long id){
-        return ResponseEntity.ok(
-                userMapper.toDTO(iUserService.getUserById(id))
-        );
-    }
-
-    @PostMapping("/register")
+    @PostMapping("/user/register")
     public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody CreateUserDTO userDto){
         User user = userMapper.toCreateEntity(userDto);
         User createdUser = iUserService.registerUser(user);
@@ -44,12 +37,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<UserDTO> loginUser(@Valid @RequestBody LoginDTO loginDTO){
+    @PostMapping("/auth/login")
+    public ResponseEntity<TokenDTO> loginUser(@Valid @RequestBody LoginDTO loginDTO){
         User user = userMapper.toLoginEntity(loginDTO);
-        User loggedUser = iUserService.loginUser(user);
-        UserDTO response = userMapper.toDTO(loggedUser);
+        String token = iUserService.loginUser(user);
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(new TokenDTO(token));
     }
 }
