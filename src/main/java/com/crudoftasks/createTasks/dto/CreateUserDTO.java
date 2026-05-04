@@ -1,4 +1,9 @@
 package com.crudoftasks.createTasks.dto;
 
-public record CreateUserDTO() {
-}
+import jakarta.validation.constraints.NotBlank;
+
+public record CreateUserDTO(
+        @NotBlank String email,
+        @NotBlank String username,
+        @NotBlank String userpassword
+) { }

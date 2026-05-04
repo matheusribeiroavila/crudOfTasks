@@ -1,11 +1,14 @@
 package com.crudoftasks.createTasks.controller;
 
+import com.crudoftasks.createTasks.dto.CreateUserDTO;
+import com.crudoftasks.createTasks.dto.LoginDTO;
 import com.crudoftasks.createTasks.dto.UserDTO;
 import com.crudoftasks.createTasks.mapper.UserMapper;
 import com.crudoftasks.createTasks.model.User;
 import com.crudoftasks.createTasks.repository.UserRepository;
 import com.crudoftasks.createTasks.service.IUserService;
 import com.crudoftasks.createTasks.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,13 +36,20 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDto){
-        System.out.println("UserDTO senha: "+userDto.userpassword());
-        User user = userMapper.toEntity(userDto);
-        System.out.println("UserEntity Controller senha: "+user.getUserpassword());
+    public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody CreateUserDTO userDto){
+        User user = userMapper.toCreateEntity(userDto);
         User createdUser = iUserService.registerUser(user);
         UserDTO response = userMapper.toDTO(createdUser);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<UserDTO> loginUser(@Valid @RequestBody LoginDTO loginDTO){
+        User user = userMapper.toLoginEntity(loginDTO);
+        User loggedUser = iUserService.loginUser(user);
+        UserDTO response = userMapper.toDTO(loggedUser);
+
+        return ResponseEntity.ok().body(response);
     }
 }

@@ -12,11 +12,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "useremail")
+    @Column(name = "useremail", unique = true, nullable = false)
     private String email;
-    @Column(name = "username")
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
-    @Column(name = "userpassword")
+    @Column(name = "userpassword", unique = true, nullable = false)
     private String userpassword;
     @JsonManagedReference
     @OneToMany(mappedBy = "user")
@@ -70,5 +70,17 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", userpassword='" + userpassword + '\'' +
+                ", tasks=" + tasks +
+                ", token='" + token + '\'' +
+                '}';
     }
 }
