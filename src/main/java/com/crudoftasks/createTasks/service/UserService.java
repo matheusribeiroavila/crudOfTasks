@@ -45,6 +45,11 @@ public class UserService implements  IUserService {
     }
 
     @Override
+    public User getUserByName(String username) {
+        return userRepository.getUserByUsername(username);
+    }
+
+    @Override
     public String loginUser(User user) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
