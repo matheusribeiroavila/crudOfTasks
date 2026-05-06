@@ -10,6 +10,7 @@ import com.crudoftasks.createTasks.repository.UserRepository;
 import com.crudoftasks.createTasks.service.IUserService;
 import com.crudoftasks.createTasks.service.UserService;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +44,12 @@ public class UserController {
         String token = iUserService.loginUser(user);
 
         return ResponseEntity.ok().body(new TokenDTO(token));
+    }
+
+    @GetMapping("/finduser/{id}")
+    public ResponseEntity<UserDTO> findUserById(@Valid @PathVariable Long id){
+        User user = iUserService.getUserById(id);
+        UserDTO response = userMapper.toDTO(user);
+        return ResponseEntity.ok().body(response);
     }
 }

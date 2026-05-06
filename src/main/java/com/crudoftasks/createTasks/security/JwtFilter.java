@@ -17,7 +17,6 @@ import java.util.Collections;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
-
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -26,6 +25,8 @@ public class JwtFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
+
+        System.out.println("Passou pelo Filter");
 
         String authHeader = request.getHeader("Authorization");
 
