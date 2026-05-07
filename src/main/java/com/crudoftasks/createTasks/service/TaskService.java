@@ -1,6 +1,7 @@
 package com.crudoftasks.createTasks.service;
 
 import com.crudoftasks.createTasks.dto.CreateTaskDTO;
+import com.crudoftasks.createTasks.exception.NotFoundException;
 import com.crudoftasks.createTasks.model.Task;
 import com.crudoftasks.createTasks.model.User;
 import com.crudoftasks.createTasks.repository.TaskRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService implements ITaskServce{
@@ -42,5 +44,12 @@ public class TaskService implements ITaskServce{
         taskCreated.setVersion(1);
 
         return taskRepository.save(taskCreated);
+    }
+
+    @Override
+    public Task setAsCompleted(Long id) {
+        Task taskTarget = taskRepository.findById(id).orElseThrow(() -> new NotFoundException("Task not found, please reload de page!"));
+        taskTarget.setCompleted(true);
+        return taskTarget;
     }
 }

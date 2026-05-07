@@ -56,4 +56,9 @@ public class TaskController {
 
     }
 
+    @PutMapping("/{id}/complete")
+    public ResponseEntity<TaskDTO> setAsCompleted(@Valid @PathVariable Long id){
+        return ResponseEntity.ok().body(taskMapper.toDto(iTaskServce.setAsCompleted(id)));
+    }
+
 }

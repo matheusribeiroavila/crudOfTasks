@@ -11,4 +11,5 @@ public interface ITaskServce {
 
     List<Task> findTasksByUsername(String username);
     Task createTask(CreateTaskDTO createTaskDTO, String username);
+    Task setAsCompleted(Long id);
 }
