@@ -48,15 +48,22 @@ public class TaskService implements ITaskServce{
 
     @Override
     public Task setAsCompleted(Long id) {
-        Task taskTarget = taskRepository.findById(id).orElseThrow(() -> new NotFoundException("Task not found, please reload de page!"));
+        Task taskTarget = taskRepository.findById(id).orElseThrow(() -> new NotFoundException("Task not found, please reload the page!"));
         taskTarget.setCompleted(true);
-        return taskTarget;
+        return taskRepository.save(taskTarget);
     }
 
     @Override
     public Task setAsUncompleted(Long id) {
-        Task taskTarget = taskRepository.findById(id).orElseThrow(() -> new NotFoundException("Task not found, please reload de page!"));
+        Task taskTarget = taskRepository.findById(id).orElseThrow(() -> new NotFoundException("Task not found, please reload the page!"));
         taskTarget.setCompleted(false);
-        return taskTarget;
+        return taskRepository.save(taskTarget);
+    }
+
+    @Override
+    public Task deleteTask(Long id) {
+        Task taskTarget = taskRepository.findById(id).orElseThrow(() -> new NotFoundException("Task not found, please reload the page"));
+        taskTarget.setDeleted(true);
+        return taskRepository.save(taskTarget);
     }
 }

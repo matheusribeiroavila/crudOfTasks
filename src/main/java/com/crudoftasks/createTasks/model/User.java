@@ -57,7 +57,7 @@ public class User {
     }
 
     public List<Task> getTasks() {
-        return tasks;
+        return tasks.stream().filter(task -> task.getDeleted() == false).toList();
     }
 
     public void setTasks(List<Task> tasks) {

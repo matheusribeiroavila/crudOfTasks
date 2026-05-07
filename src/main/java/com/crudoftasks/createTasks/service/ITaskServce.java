@@ -13,4 +13,5 @@ public interface ITaskServce {
     Task createTask(CreateTaskDTO createTaskDTO, String username);
     Task setAsCompleted(Long id);
     Task setAsUncompleted(Long id);
+    Task deleteTask(Long id);
 }

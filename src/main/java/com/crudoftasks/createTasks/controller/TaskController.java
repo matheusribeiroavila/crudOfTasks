@@ -66,4 +66,9 @@ public class TaskController {
         return ResponseEntity.ok().body(taskMapper.toDto(iTaskServce.setAsUncompleted(id)));
     }
 
+    @PutMapping("/{id}/delete")
+    public ResponseEntity<TaskDTO> deleteTask(@Valid @PathVariable Long id){
+        return ResponseEntity.ok().body(taskMapper.toDto(iTaskServce.deleteTask(id)));
+    }
+
 }
