@@ -52,4 +52,11 @@ public class TaskService implements ITaskServce{
         taskTarget.setCompleted(true);
         return taskTarget;
     }
+
+    @Override
+    public Task setAsUncompleted(Long id) {
+        Task taskTarget = taskRepository.findById(id).orElseThrow(() -> new NotFoundException("Task not found, please reload de page!"));
+        taskTarget.setCompleted(false);
+        return taskTarget;
+    }
 }

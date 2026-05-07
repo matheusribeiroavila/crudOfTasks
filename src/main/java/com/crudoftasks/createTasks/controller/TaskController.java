@@ -61,4 +61,9 @@ public class TaskController {
         return ResponseEntity.ok().body(taskMapper.toDto(iTaskServce.setAsCompleted(id)));
     }
 
+    @PutMapping("/{id}/uncomplete")
+    public ResponseEntity<TaskDTO> setAsUncompleted(@Valid @PathVariable Long id){
+        return ResponseEntity.ok().body(taskMapper.toDto(iTaskServce.setAsUncompleted(id)));
+    }
+
 }
